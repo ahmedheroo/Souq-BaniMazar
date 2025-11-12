@@ -34,8 +34,8 @@ This platform aims to simplify local trade, support small businesses, and make i
 - 👤 User Authentication (Signup / Login / Profile)
 - 🛒 Listings Management (Add, Edit, Delete)
 - 🔎 Search & Filter products
-<!-- - 💬 Chat & Messaging between buyers and sellers -->
 - 📷 Image Upload for product photos
 - 🗺️ Location-based results limited to Beni Mazar area
-<!-- - 🌐 Multilingual Support (Arabic/English) -->
 - 📱 Responsive Design (mobile-friendly)
+<!-- - 💬 Chat & Messaging between buyers and sellers -->
+<!-- - 🌐 Multilingual Support (Arabic/English) -->
