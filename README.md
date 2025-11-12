@@ -1,20 +1,48 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# 🏪 Beni Mazar Marketplace (سوق بني مزار)
 
-# Run and deploy your AI Studio app
+An Angular-based web marketplace designed to **connect sellers and buyers directly** within the **Beni Mazar region of Minya, Egypt (بني مزار - المنيا)**.  
+This platform aims to simplify local trade, support small businesses, and make it easier for people to buy and sell goods and services within their community.
 
-This contains everything you need to run your app locally.
+---
 
-View your app in AI Studio: https://ai.studio/apps/drive/1gSrFDXDV93aayyrP6cNjMOz7xhX_k5mQ
+## 🌍 Overview
 
-## Run Locally
+**Beni Mazar Marketplace** provides a modern and responsive interface for users to:
 
-**Prerequisites:**  Node.js
+- 🛍️ Browse and search for local products and services  
+- 💬 Communicate directly with sellers  
+- 📱 Post and manage ads or listings  
+- 📍 Discover nearby offers within Beni Mazar  
+- 🔒 Enjoy a secure and smooth user experience built with Angular
+
+---
+
+## 🧩 Tech Stack
+
+- **Frontend Framework:** Angular 20
+- **Language:** TypeScript
+- **UI Library:** Angular Material / Bootstrap
+- **State Management:** NgRx (if applicable)
+- **Routing:** Angular Router
+- **HTTP Communication:** HttpClient
+- **Backend:** ASP.NET Core / REST API
+- **Database (optional):** SQL Server
 
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## 🧾 Core Features
+
+- 👤 User Authentication (Signup / Login / Profile)
+- 
+- 🛒 Listings Management (Add, Edit, Delete)
+- 
+- 🔎 Search & Filter products
+- 
+- 💬 Chat & Messaging between buyers and sellers
+- 
+- 📷 Image Upload for product photos
+- 
+- 🗺️ Location-based results limited to Beni Mazar area
+- 
+- 🌐 Multilingual Support (Arabic/English)
+- 
+- 📱 Responsive Design (mobile-friendly)
