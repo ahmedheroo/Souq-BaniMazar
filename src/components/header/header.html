@@ -1,95 +1,120 @@
-
 <header class="bg-white shadow-md sticky top-0 z-50">
   <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <div class="flex items-center">
-        <a routerLink="/" class="text-2xl font-bold text-teal-600">سوق بني مزار </a>
+        <a routerLink="/" class="text-2xl font-bold text-teal-600">سوق بني مزار</a>
+
         <div class="hidden md:block">
           <div class="ms-10 flex items-baseline space-s-4">
-            <a routerLink="/" routerLinkActive="text-teal-600 border-b-2 border-teal-600"  class="text-gray-600 hover:text-teal-600 px-3 py-2 text-sm font-medium">الرئيسية</a>
-            <!-- <a routerLink="/" routerLinkActive="text-teal-600 border-b-2 border-teal-600" [routerLinkActiveOptions]="{exact: true}" class="text-gray-600 hover:text-teal-600 px-3 py-2 text-sm font-medium">الرئيسية</a> -->
-            <!-- @if (isSeller()) {
-              <a routerLink="/add-product" routerLinkActive="text-teal-600 border-b-2 border-teal-600" class="text-gray-600 hover:text-teal-600 px-3 py-2 text-sm font-medium">أضف منتج</a>
-            }
-            @if (isAdmin()) {
-               <a routerLink="/admin" routerLinkActive="text-teal-600 border-b-2 border-teal-600" class="text-gray-600 hover:text-teal-600 px-3 py-2 text-sm font-medium">لوحة التحكم</a>
-            } -->
-              <a routerLink="/add-product" routerLinkActive="text-teal-600 border-b-2 border-teal-600" class="text-gray-600 hover:text-teal-600 px-3 py-2 text-sm font-medium">أضف منتج</a>
-               <a routerLink="/admin" routerLinkActive="text-teal-600 border-b-2 border-teal-600" class="text-gray-600 hover:text-teal-600 px-3 py-2 text-sm font-medium">لوحة التحكم</a>
+            <a routerLink="/" routerLinkActive="text-teal-600 border-b-2 border-teal-600"
+               [routerLinkActiveOptions]="{ exact: true }"
+               class="text-gray-600 hover:text-teal-600 px-3 py-2 text-sm font-medium">الرئيسية</a>
+
+            <a *ngIf="isSeller()" routerLink="/add-product"
+               routerLinkActive="text-teal-600 border-b-2 border-teal-600"
+               class="text-gray-600 hover:text-teal-600 px-3 py-2 text-sm font-medium">أضف منتج</a>
+
+            <a *ngIf="isAdmin()" routerLink="/admin"
+               routerLinkActive="text-teal-600 border-b-2 border-teal-600"
+               class="text-gray-600 hover:text-teal-600 px-3 py-2 text-sm font-medium">لوحة التحكم</a>
           </div>
         </div>
       </div>
+
       <div class="hidden md:block">
         <div class="ms-4 flex items-center md:ms-6">
-           
-            <a routerLink="/profile" class="flex items-center text-sm font-medium text-gray-700 hover:text-teal-600">
-              <span class="w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center me-2">
-                <span class="font-bold text-teal-700">username</span>
-              </span>
-              مرحباً،  
+          <!-- show when logged in -->
+          <ng-container *ngIf="user$ | async as user; else guestLinks">
+            <a routerLink="/profile" class="flex items-center text-sm font-medium text-gray-700 hover:text-teal-600 font-bold text-teal-700">
+              <!-- <span class="w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center me-2">
+                 <span class="font-bold text-teal-700">{{user.ImgUrl}}</span> 
+              </span> -->
+              مرحباً، {{ user.name || user.userName }}
             </a>
-            <button  class="ms-4 text-sm font-medium text-gray-500 hover:text-red-600 transition-colors duration-200">
+
+            <button (click)="logout()"
+                    class="ms-4 text-sm font-medium text-gray-500 hover:text-red-600 transition-colors duration-200">
               تسجيل الخروج
             </button>
-        
+          </ng-container>
+
+          <!-- guest links -->
+          <ng-template #guestLinks>
             <div class="flex items-center space-s-4">
               <a routerLink="/login" class="text-sm font-medium text-teal-600 hover:text-teal-700 me-3">تسجيل الدخول</a>
-              <a routerLink="/register" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700">
+              <a routerLink="/register"
+                 class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700">
                 تسجيل بائع جديد
               </a>
             </div>
-          
+          </ng-template>
         </div>
       </div>
+
+      <!-- mobile menu button -->
       <div class="-me-2 flex md:hidden">
-        <button (click)="toggleMenu()" type="button" class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-500" aria-controls="mobile-menu" aria-expanded="false">
+        <button (click)="toggleMenu()" type="button"
+                class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-500"
+                aria-controls="mobile-menu" [attr.aria-expanded]="isMenuOpen()">
           <span class="sr-only">فتح القائمة الرئيسية</span>
-          @if (!isMenuOpen()) {
-            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          } @else {
-            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          }
+
+          <svg *ngIf="!isMenuOpen()" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+               stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+
+          <svg *ngIf="isMenuOpen()" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+               stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
         </button>
       </div>
     </div>
   </nav>
 
-  @if (isMenuOpen()) {
-    <div class="md:hidden" id="mobile-menu">
-      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-        <a routerLink="/" routerLinkActive="bg-teal-50 text-teal-700" class="text-gray-600 hover:bg-gray-50 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium">الرئيسية</a>
-          <a routerLink="/add-product" routerLinkActive="bg-teal-50 text-teal-700" class="text-gray-600 hover:bg-gray-50 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium">أضف منتج</a>
-            <a routerLink="/admin" routerLinkActive="bg-teal-50 text-teal-700" class="text-gray-600 hover:bg-gray-50 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium">لوحة التحكم</a>
-     
-      </div>
-      <div class="pt-4 pb-3 border-t border-gray-200">
-     
-          <div class="flex items-center px-5">
-            <div class="flex-shrink-0">
-              <span class="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
-                <span class="font-bold text-teal-700">user name</span>
-              </span>
-            </div>
-            <div class="ms-3">
-              <div class="text-base font-medium text-gray-800">  user name </div>
-              <div class="text-sm font-medium text-gray-500">  user email </div>
-            </div>
-          </div>
-          <div class="mt-3 px-2 space-y-1">
-            <a routerLink="/profile" routerLinkActive="bg-teal-50 text-teal-700" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-teal-700 hover:bg-teal-50">الملف الشخصي</a>
-            <a  class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-red-700 hover:bg-red-50 cursor-pointer">تسجيل الخروج</a>
-          </div>
-    
-          <div class="px-2 space-y-1">
-            <a routerLink="/login" routerLinkActive="bg-teal-50 text-teal-700" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-teal-700 hover:bg-teal-50">تسجيل الدخول</a>
-            <a routerLink="/register" routerLinkActive="bg-teal-50 text-teal-700" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-teal-700 hover:bg-teal-50 me-2">تسجيل بائع جديد</a>
-          </div>
-       
-      </div>
+  <!-- mobile menu -->
+  <div *ngIf="isMenuOpen()" class="md:hidden" id="mobile-menu">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+      <a routerLink="/" routerLinkActive="bg-teal-50 text-teal-700" [routerLinkActiveOptions]="{ exact: true }"
+         class="text-gray-600 hover:bg-gray-50 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium">الرئيسية</a>
+
+      <a *ngIf="isSeller()" routerLink="/add-product" routerLinkActive="bg-teal-50 text-teal-700"
+         class="text-gray-600 hover:bg-gray-50 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium">أضف منتج</a>
+
+      <a *ngIf="isAdmin()" routerLink="/admin" routerLinkActive="bg-teal-50 text-teal-700"
+         class="text-gray-600 hover:bg-gray-50 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium">لوحة التحكم</a>
     </div>
-  }
+
+    <div class="pt-4 pb-3 border-t border-gray-200">
+      <ng-container *ngIf="user$ | async as user; else mobileGuest">
+        <div class="flex items-center px-5">
+          <div class="flex-shrink-0">
+            <span class="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
+              <span class="font-bold text-teal-700">{{ user.name || user.userName }}</span>
+            </span>
+          </div>
+          <div class="ms-3">
+            <div class="text-base font-medium text-gray-800">{{ user.name || user.userName }}</div>
+            <div class="text-sm font-medium text-gray-500">{{ user.email }}</div>
+          </div>
+        </div>
+
+        <div class="mt-3 px-2 space-y-1">
+          <a routerLink="/profile" routerLinkActive="bg-teal-50 text-teal-700"
+             class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-teal-700 hover:bg-teal-50">الملف الشخصي</a>
+          <a (click)="logout()"
+             class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-red-700 hover:bg-red-50 cursor-pointer">تسجيل الخروج</a>
+        </div>
+      </ng-container>
+
+      <ng-template #mobileGuest>
+        <div class="px-2 space-y-1">
+          <a routerLink="/login" routerLinkActive="bg-teal-50 text-teal-700"
+             class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-teal-700 hover:bg-teal-50">تسجيل الدخول</a>
+          <a routerLink="/register" routerLinkActive="bg-teal-50 text-teal-700"
+             class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-teal-700 hover:bg-teal-50 me-2">تسجيل بائع جديد</a>
+        </div>
+      </ng-template>
+    </div>
+  </div>
 </header>

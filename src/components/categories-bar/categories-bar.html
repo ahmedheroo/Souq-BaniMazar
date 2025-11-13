@@ -1,0 +1,15 @@
+<section class="bg-gray-100 p-3 rounded-xl border border-gray-200">
+  <div class="flex items-center space-s-4 overflow-x-auto pb-2 -mb-2">
+    @for (item of categories; track item.categoryId) { 
+      <a [routerLink]="['/category', item.categoryId]"
+      class="flex-shrink-0 px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-full shadow-sm hover:bg-teal-50 hover:text-teal-600 transition-colors duration-200 border border-gray-200">
+      {{item.categoryName}}<span class="ms-1.5 text-xs bg-gray-200 text-gray-600 rounded-full px-2 py-0.5">{{item.productsCount}}
+      </span>
+    </a>
+  }
+    <a routerLink="/"
+      class="flex-shrink-0 ms-auto px-4 py-2 text-sm font-bold text-white bg-teal-600 rounded-full shadow-sm hover:bg-teal-700 transition-colors duration-200">
+      عرض الكل
+    </a>
+  </div>
+</section>

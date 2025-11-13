@@ -1,0 +1,106 @@
+
+<div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md">
+  <h1 class="text-2xl font-bold text-gray-800 mb-2">تسجيل بائع جديد</h1>
+  <p class="text-gray-500 mb-6">انضم إلى مجتمع البائعين لدينا وابدأ في عرض منتجاتك.</p>
+
+  <!-- Progress Bar -->
+  <div class="w-full mb-8">
+    <div class="flex items-center">
+      <div class="w-1/3 text-center">
+        <div [class.bg-teal-600]="step() >= 1" class="w-10 h-10 mx-auto rounded-full text-lg text-white flex items-center justify-center">1</div>
+        <p class="text-xs mt-2">المعلومات</p>
+      </div>
+      <div class="w-1/3 border-t-2 transition duration-500 ease-in-out" [class.border-teal-600]="step() > 1" [class.border-gray-300]="step() <= 1"></div>
+      <div class="w-1/3 text-center">
+        <div [class.bg-teal-600]="step() >= 2" [class.bg-gray-300]="step() < 2" class="w-10 h-10 mx-auto rounded-full text-lg text-white flex items-center justify-center">2</div>
+        <p class="text-xs mt-2">رقم الهاتف</p>
+      </div>
+      <div class="w-1/3 border-t-2 transition duration-500 ease-in-out" [class.border-teal-600]="step() > 2" [class.border-gray-300]="step() <= 2"></div>
+      <div class="w-1/3 text-center">
+        <div [class.bg-teal-600]="step() >= 3" [class.bg-gray-300]="step() < 3" class="w-10 h-10 mx-auto rounded-full text-lg text-white flex items-center justify-center">3</div>
+        <p class="text-xs mt-2">صورة إثبات شخصية</p>
+      </div>
+    </div>
+  </div>
+
+  @if (step() === 1) {
+    <form [formGroup]="registerForm.get('details')" (ngSubmit)="nextStep()" class="space-y-6">
+      <h2 class="text-xl font-semibold text-gray-700">الخطوة 1: تفاصيل الحساب</h2>
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-700">الاسم بالكامل</label>
+        <input type="text" id="name" formControlName="name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm">
+      </div>
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">البريد الإلكتروني</label>
+        <input type="email" id="email" formControlName="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm">
+      </div>
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700">كلمة المرور</label>
+        <input type="password" id="password" formControlName="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm">
+      </div>
+      <div>
+        <button type="submit" [disabled]="!registerForm.get('details')?.valid" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:bg-gray-400">التالي</button>
+      </div>
+    </form>
+  }
+
+  @if (step() === 2) {
+    <form [formGroup]="registerForm.get('phone')" (ngSubmit)="verifyPhone()" class="space-y-6">
+      <h2 class="text-xl font-semibold text-gray-700">الخطوة 2: التحقق من رقم الهاتف</h2>
+      <div>
+        <label for="number" class="block text-sm font-medium text-gray-700">رقم الهاتف</label>
+        <input type="tel" id="number" formControlName="number" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm">
+      </div>
+      <div>
+        <button type="submit" [disabled]="!registerForm.get('phone')?.valid || phoneVerified()" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:bg-gray-400">
+            @if (phoneVerified()) { 
+                <span>تم التحقق بنجاح!</span>
+            } @else {
+                <span>إرسال رمز التحقق</span>
+            }
+        </button>
+      </div>
+      <div class="flex justify-between">
+        <button type="button" (click)="prevStep()" class="text-sm font-medium text-gray-600 hover:text-teal-600">السابق</button>
+      </div>
+    </form>
+  }
+
+  @if (step() === 3) {
+    <div class="space-y-6">
+      <h2 class="text-xl font-semibold text-gray-700">الخطوة 3: رفع صورة إثبات الشخصية</h2>
+      <p class="text-sm font-medium text-teal-600">ملحوظة: نحن نتفهم أهمية خصوصيتك. إن عملية التحقق من الهوية هذه هي خطوة ضرورية لضمان أمن وسلامة جميع المستخدمين. و نؤكد لك أن بياناتك الشخصية سرية ومحمية بالكامل، وتُستخدم فقط لغرض تأكيد النزاهة والشفافية في التعامل بين البائع والمشتري.</p>
+        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+            <div class="space-y-1 text-center">
+            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <div class="flex text-sm text-gray-600 justify-center">
+                <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-teal-600 hover:text-teal-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-teal-500">
+                <span>اختر ملفاً للرفع</span>
+                <input id="file-upload" (change)="onFileSelected($event)" type="file" class="sr-only">
+                </label>
+            </div>
+            @if(idUploaded()) {
+                <p class="text-sm text-green-600">{{ fileName() }}</p>
+            } @else {
+                <p class="text-xs text-gray-500">PNG, JPG, PDF</p>
+            }
+            </div>
+        </div>
+        <div>
+            <button (click)="submitRegistration()" [disabled]="!idUploaded()" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:bg-gray-400">إرسال الطلب</button>
+        </div>
+        <div class="flex justify-between">
+            <button type="button" (click)="prevStep()" class="text-sm font-medium text-gray-600 hover:text-teal-600">السابق</button>
+        </div>
+    </div>
+  }
+
+  @if (step() === 4) {
+    <div class="text-center py-10">
+      <h2 class="text-2xl font-bold text-green-600">تهانينا!</h2>
+      <p class="mt-2 text-gray-600">تم استلام طلبك بنجاح. سيتم مراجعته والرد عليك في أقرب وقت ممكن.</p>
+    </div>
+  }
+</div>
