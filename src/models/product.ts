@@ -1,13 +1,12 @@
-export interface ProductsDto {
+export interface product {
     id: number;
     name: string;
     description: string;
     price: number;
-    categoryId: number;
-    categoryName: string;
     imgUrl: string;
     quantity: number;
     sellerId: string;
-    sellerName: string;
+    categoriesId: number;
     statusId: number;
+    seller: string;
 }

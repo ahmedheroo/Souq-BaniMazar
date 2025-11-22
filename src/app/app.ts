@@ -1,4 +1,4 @@
-import { Component, OnInit ,signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from "../components/header/header";
 import { Footer } from "../components/footer/footer";
@@ -10,14 +10,25 @@ import { Auth } from '../services/auth';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App implements OnInit {
-constructor(private auth: Auth) {}
-
-  ngOnInit() {
-    this.auth.refresh().subscribe(resp => {
-      if (resp?.accessToken) {
+export class App {
+  constructor(private auth: Auth) {
+   
+      this.auth.refresh().subscribe({
+    next: (tokenResult) => {
+      if (tokenResult?.accessToken) {
         this.auth.me().subscribe();
       }
-    }, () => { });
+    },
+    error: () => {
+      // no refresh token / invalid, user stays logged out
+    }
+  });
+   if (this.auth.getAccessToken()) {
+      this.auth.me().subscribe({
+        next: () => { },
+        error: () => { }
+      });
+    }
   }
+
 }

@@ -18,3 +18,15 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+    @font-face {
+      font-family: Cairo;
+      src: url(assets/fonts/Cairo/Cairo-Regular.ttf);
+    }
+
+    @font-face {
+      font-family: messeriFont;
+      src: url(assets/fonts/El_Messiri/ElMessiri-Regular.ttf);
+    }
+    body {
+      font-family: 'Cairo', sans-serif;
+    }

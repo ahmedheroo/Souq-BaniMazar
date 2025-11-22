@@ -12,11 +12,13 @@ export class AuthInterceptor implements HttpInterceptor {
   private refreshing = false;
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
-  constructor(private auth: Auth) {}
+  constructor(private auth: Auth) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let cloned = req;
-    const token = this.auth.getAccessToken();
+    // const token = this.auth.getAccessToken();
+    const token = localStorage.getItem('accessToken');
+console.log(token);
     if (token) {
       cloned = req.clone({
         setHeaders: {

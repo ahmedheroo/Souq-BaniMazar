@@ -4,10 +4,10 @@ import {
   PLATFORM_BROWSER_ID,
   getDOM,
   setRootDomAdapter
-} from "./chunk-DDGYUQGD.js";
+} from "./chunk-4MKYF4ZC.js";
 import {
   withHttpTransferCache
-} from "./chunk-Q4JARNCO.js";
+} from "./chunk-CFR6N4ZA.js";
 import {
   XhrFactory,
   parseCookieValue
@@ -18,15 +18,9 @@ import {
   ApplicationRef,
   CSP_NONCE,
   Console,
-  DOCUMENT,
-  ENVIRONMENT_INITIALIZER,
-  ErrorHandler,
-  INJECTOR_SCOPE,
   IS_ENABLED_BLOCKING_INITIAL_NAVIGATION,
   Inject,
   Injectable,
-  InjectionToken,
-  Injector,
   NgModule,
   NgZone,
   Optional,
@@ -34,18 +28,13 @@ import {
   PLATFORM_INITIALIZER,
   RendererFactory2,
   RendererStyleFlags2,
-  RuntimeError,
   SecurityContext,
   TESTABILITY,
   TESTABILITY_GETTER,
   Testability,
   TestabilityRegistry,
   TracingService,
-  Version,
   ViewEncapsulation,
-  XSS_SECURITY_URL,
-  ZONELESS_ENABLED,
-  _global,
   _sanitizeHtml,
   _sanitizeUrl,
   allLeavingAnimations,
@@ -56,11 +45,7 @@ import {
   bypassSanitizationTrustStyle,
   bypassSanitizationTrustUrl,
   createPlatformFactory,
-  formatRuntimeError,
-  forwardRef,
-  inject,
   internalCreateApplication,
-  makeEnvironmentProviders,
   platformCore,
   setClassMetadata,
   setDocument,
@@ -69,11 +54,28 @@ import {
   withEventReplay,
   withI18nSupport,
   withIncrementalHydration,
+  ɵɵdefineNgModule
+} from "./chunk-TBFC7GME.js";
+import {
+  DOCUMENT,
+  ENVIRONMENT_INITIALIZER,
+  ErrorHandler,
+  INJECTOR_SCOPE,
+  InjectionToken,
+  Injector,
+  RuntimeError,
+  Version,
+  XSS_SECURITY_URL,
+  ZONELESS_ENABLED,
+  _global,
+  formatRuntimeError,
+  forwardRef,
+  inject,
+  makeEnvironmentProviders,
   ɵɵdefineInjectable,
   ɵɵdefineInjector,
-  ɵɵdefineNgModule,
   ɵɵinject
-} from "./chunk-N7BMLK4U.js";
+} from "./chunk-WNSG6DLE.js";
 import {
   __spreadValues
 } from "./chunk-WDMUDEB6.js";
@@ -2041,4 +2043,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-XQ5IYGQ3.js.map
+//# sourceMappingURL=chunk-BKER4DZ6.js.map

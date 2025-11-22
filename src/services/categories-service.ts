@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CategoriesDto } from '../interfaces/categories-dto';
 import { CategoriesWithProductsDto } from '../interfaces/categories-with-products-dto';
+import { categories } from '../models/categories';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,11 @@ export class CategoriesService {
   getCategoriesWithProducts(): Observable<CategoriesWithProductsDto[]> {
     return this.http.get<CategoriesWithProductsDto[]>(
       `${this.api}/GetCategoriesWithProducts`
+    );
+  }
+    GetCategoriesList(): Observable<categories[]> {
+    return this.http.get<categories[]>(
+      `${this.api}/GetCategoriesList`
     );
   }
 }
