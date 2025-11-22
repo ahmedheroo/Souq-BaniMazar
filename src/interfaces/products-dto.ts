@@ -10,4 +10,5 @@ export interface ProductsDto {
     sellerId: string;
     sellerName: string;
     statusId: number;
+    productImg: File;
 }

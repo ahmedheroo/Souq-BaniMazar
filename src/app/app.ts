@@ -12,23 +12,15 @@ import { Auth } from '../services/auth';
 })
 export class App {
   constructor(private auth: Auth) {
-   
-      this.auth.refresh().subscribe({
-    next: (tokenResult) => {
-      if (tokenResult?.accessToken) {
-        this.auth.me().subscribe();
+   const token = this.auth.getAccessToken();
+  if (token) {
+    this.auth.me().subscribe({
+      next: () => {},
+      error: () => {
+        // token not valid anymore; user stays logged out
       }
-    },
-    error: () => {
-      // no refresh token / invalid, user stays logged out
-    }
-  });
-   if (this.auth.getAccessToken()) {
-      this.auth.me().subscribe({
-        next: () => { },
-        error: () => { }
-      });
-    }
+    });
+ 
   }
 
-}
+}}

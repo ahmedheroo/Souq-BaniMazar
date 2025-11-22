@@ -8,7 +8,7 @@ import { ProductsDto } from '../interfaces/products-dto';
 })
 export class ProductsService {
     private apiUrl = environment.apiUrl;
-    private api = `${this.apiUrl}/Product`;
+    private api = `${this.apiUrl}/Products`;
   constructor(private http: HttpClient) { }
 
     // In auth.service.ts
@@ -17,8 +17,8 @@ addProduct(payload: ProductsDto) {
   formData.append('Name', payload.name);
   formData.append('Description', payload.description);
   formData.append('Price', payload.price.toFixed() );
-  formData.append('CategoriesId', payload.categoryId.toString());
-  formData.append('ImgUrl', payload.imgUrl);
+  formData.append('CategoryId', payload.categoryId.toString());
+  formData.append('ProductImg', payload.productImg);
   formData.append('Quantity', payload.quantity.toString());
   formData.append('SellerId', payload.sellerId);
   formData.append('StatusId', payload.statusId.toString());
