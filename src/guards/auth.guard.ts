@@ -1,17 +1,16 @@
 // src/app/guards/auth.guard.ts
-import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { inject, Injectable } from '@angular/core';
+import { CanActivate, CanActivateFn, Router, UrlTree } from '@angular/router';
 import { Observable, map, take } from 'rxjs';
 import { Auth } from '../services/auth';
 
-@Injectable({ providedIn: 'root' })
-export class AuthGuard implements CanActivate {
-  constructor(private auth: Auth, private router: Router) {}
+ 
+export const AuthGuard: CanActivateFn = () => {
+  const auth = inject(Auth);
+  const router = inject(Router);
 
-  canActivate(): Observable<boolean | UrlTree> {
-    return this.auth.isLoggedIn$.pipe(
-      take(1),
-      map(loggedIn => loggedIn ? true : this.router.createUrlTree(['/login']))
-    );
-  }
-}
+  if (auth.userSignal()) return true;
+
+  router.navigate(['/login'], { queryParams: { returnUrl: location.pathname }});
+  return false;
+};

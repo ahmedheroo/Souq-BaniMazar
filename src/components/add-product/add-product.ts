@@ -1,4 +1,4 @@
-import { Component, signal, computed, ElementRef, ChangeDetectionStrategy, inject, effect } from '@angular/core';
+import { Component, signal, computed, ElementRef, ChangeDetectionStrategy, inject, effect, TemplateRef,ViewChild  } from '@angular/core';
 import { CategoriesService } from '../../services/categories-service';
 import { StatusService } from '../../services/status-service';
 import { categories } from '../../models/categories';
@@ -7,11 +7,13 @@ import { Auth } from '../../services/auth';
 import { ProductsService } from '../../services/products-service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { startWith } from 'rxjs/operators';
-import { AsyncPipe } from '@angular/common';
+import { ToastService } from '../../services/toast-service';
+import { ToastGlobal } from '../global/toast-global/toast-global';
 
 @Component({
   selector: 'app-add-product',
-  imports: [FormsModule, ReactiveFormsModule],
+  standalone: true,
+  imports: [FormsModule, ReactiveFormsModule,ToastGlobal],
   templateUrl: './add-product.html',
   styleUrl: './add-product.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,6 +26,7 @@ export class AddProduct {
   private authService = inject(Auth);
   private productService = inject(ProductsService);
   private statusService = inject(StatusService);
+  private toastService = inject(ToastService);
   status = toSignal(this.statusService.getStatuses(), { initialValue: [] });
   idUploaded = signal(false);
   fileName = signal('');
@@ -35,10 +38,12 @@ export class AddProduct {
   categories = toSignal(this.categoryService.GetCategoriesList(), { initialValue: [] });
   isCategoryDropdownOpen = signal(false);
   categorySearchTerm = signal('');
+  @ViewChild('successTpl') successTpl!: TemplateRef<any>;
+  @ViewChild('dangerTpl') dangerTpl!: TemplateRef<any>;
 
   constructor() {
     effect(() => {
-      const id = this.sellerId();  // your computed seller ID
+      const id = this.sellerId();  
       if (id) {
         this.productForm.patchValue({ sellerId: id });
       }
@@ -52,7 +57,8 @@ export class AddProduct {
     categoryId: [null as number | null, [Validators.required]],
     statusId: [0, [Validators.required, Validators.min(1)]],
     productImg: [null as File | null, [Validators.required]],
-    sellerId: [null, this.sellerId()],
+    sellerId: [this.sellerId() ?? null, []],
+
   });
 
   private selectedCategoryId = toSignal(
@@ -108,18 +114,27 @@ export class AddProduct {
 
     // If you have image control in the form:
     this.productForm.patchValue({ productImg: file });
-    this.productForm.get('imgUrl')?.updateValueAndValidity();
+    this.productForm.get('productImg')?.updateValueAndValidity();
+  }
+  showSuccess(template: TemplateRef<any>) {
+    this.toastService.show({ template, classname: 'bg-success text-light', delay: 5000 });
+  }
+	showStandard(template: TemplateRef<any>) {
+		this.toastService.show({ template });
+	}
+  showDanger(template: TemplateRef<any>) {
+    this.toastService.show({ template, classname: 'bg-danger text-light', delay: 5000 });
   }
   addProduct() {
-    if (this.productForm.invalid){
+    if (this.productForm.invalid) {
       console.log('Form invalid', this.productForm.value);
-    return;
-    } 
+      return;
+    }
 
-      if (!this.productImgFile) {
-    console.error('No product image selected');
-    return;
-  }
+    if (!this.productImgFile) {
+      console.error('No product image selected');
+      return;
+    }
 
     const productDetails = this.productForm.value;
     const payload = {
@@ -133,11 +148,19 @@ export class AddProduct {
       statusId: Number(productDetails.statusId),
     } as any;
     this.productService.addProduct(payload).subscribe({
-      next: (res) => {
-        console.log('Product added successfully', res);
+      next: (res: any) => {
+        if (res?.result === true) {
+          console.log('Product added successfully', res);
+          this.productForm.reset();
+          this.idUploaded.set(false);
+          this.fileName.set('');
+          this.showSuccess(this.successTpl);
+        } else {
+          this.showDanger(this.dangerTpl);
+        }
       },
       error: (err) => {
-        console.error('Error adding product', err);
+        this.showDanger(this.dangerTpl);
       },
     });
 

@@ -12,9 +12,11 @@
 
             <a routerLink="/categories" routerLinkActive="text-teal-600 border-b-2 border-teal-600"
               class="text-gray-600 hover:text-teal-600 px-3 py-2 text-sm font-medium">الأقسام</a>
-              
-            <a *ngIf="isSeller()" routerLink="/addproduct" routerLinkActive="text-teal-600 border-b-2 border-teal-600"
+
+            <a *ngIf="isSeller()" routerLink="/seller/addproduct" routerLinkActive="text-teal-600 border-b-2 border-teal-600"
               class="text-gray-600 hover:text-teal-600 px-3 py-2 text-sm font-medium">أضف منتج</a>
+            <a *ngIf="isSeller()" routerLink="/seller/manage-products" routerLinkActive="text-teal-600 border-b-2 border-teal-600"
+              class="text-gray-600 hover:text-teal-600 px-3 py-2 text-sm font-medium">إدارة المنتجات</a>
 
             <a *ngIf="isAdmin()" routerLink="/admin" routerLinkActive="text-teal-600 border-b-2 border-teal-600"
               class="text-gray-600 hover:text-teal-600 px-3 py-2 text-sm font-medium">لوحة التحكم</a>

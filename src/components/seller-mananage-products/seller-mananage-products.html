@@ -1,0 +1,122 @@
+
+<div class="space-y-8">
+    <header>
+        <h1 class="text-3xl font-bold text-gray-900">إدارة المنتجات</h1>
+        <p class="mt-1 text-sm text-gray-500">نظرة عامة على منتجاتك في السوق وإدارة المحتوى.</p>
+    </header>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2">
+        <!-- Total Products Card -->
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <svg class="h-8 w-8 text-white bg-teal-500 p-1.5 rounded-lg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+                    </div>
+                    <div class="ms-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-gray-500 truncate">إجمالي المنتجات</dt>
+                            <dd class="text-2xl font-bold text-gray-900">{{productsCount()}}</dd>  
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Total Sellers Card -->
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <svg class="h-8 w-8 text-white bg-indigo-500 p-1.5 rounded-lg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.124-1.28-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.124-1.28.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </div>
+                    <div class="ms-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-gray-500 truncate">إجمالي مشاهدات منتجاتك</dt>
+                            <dd class="text-2xl font-bold text-gray-900">{{ (productViews$() | async) }}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-1 gap-8 items-start">
+        <!-- Products Management -->
+         <section class="bg-white p-6 rounded-lg shadow flex flex-col">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">إدارة المنتجات</h2>
+            <div class="overflow-x-auto flex-grow">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">المنتج</th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">السعر</th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الكمية</th>
+                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @for (product of products(); track product.id) {
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ product.productName }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ product.price | number }} جنيه</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">
+                                    <span [class.text-orange-600]="product.quantity <= 5" [class.font-bold]="product.quantity <= 5">
+                                      {{ product.quantity }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-center space-x-2">
+                                    <a [routerLink]="['/product', product.id]" class="inline-block p-1 text-teal-600 hover:text-teal-900 hover:bg-teal-100 rounded-full transition">
+                                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                    </a>
+                                    <button class="p-1 text-red-600 hover:text-red-900 hover:bg-red-100 rounded-full transition">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        } @empty {
+                             <tr>
+                                <td colspan="4" class="px-6 py-10 text-center text-sm text-gray-500">لا توجد منتجات لعرضها.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+             @if (totalProductPages() > 1) {
+                <nav class="flex items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6 mt-auto">
+                    <div class="flex-1 flex justify-between sm:hidden">
+                        <button (click)="goToProductPage(productsCurrentPage() - 1)" [disabled]="productsCurrentPage() === 1" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50">السابق</button>
+                        <button (click)="goToProductPage(productsCurrentPage() + 1)" [disabled]="productsCurrentPage() === totalProductPages()" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50">التالي</button>
+                    </div>
+                    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                        <div>
+                             <p class="text-sm text-gray-700">{{ productsPaginationInfo() }}</p>
+                        </div>
+                        <div>
+                            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                <button (click)="goToProductPage(productsCurrentPage() - 1)" [disabled]="productsCurrentPage() === 1" class="relative inline-flex items-center px-2 py-2 rounded-s-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50">
+                                    <span class="sr-only">السابق</span>
+                                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+                                </button>
+                                @for (page of productPages(); track page) {
+                                    <button (click)="goToProductPage(page)" [class.bg-teal-50]="page === productsCurrentPage()" [class.border-teal-500]="page === productsCurrentPage()" [class.text-teal-600]="page === productsCurrentPage()" [class.z-10]="page === productsCurrentPage()" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                                        {{ page }}
+                                    </button>
+                                }
+                                <button (click)="goToProductPage(productsCurrentPage() + 1)" [disabled]="productsCurrentPage() === totalProductPages()" class="relative inline-flex items-center px-2 py-2 rounded-e-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50">
+                                    <span class="sr-only">التالي</span>
+                                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                                </button>
+                            </nav>
+                        </div>
+                    </div>
+                </nav>
+            }
+        </section> 
+    </div>
+</div>
